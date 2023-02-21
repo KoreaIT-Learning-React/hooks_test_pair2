@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import {useState} from 'react';
+import styled from 'styled-components';
 
 function Q1() {
   /* 
@@ -23,6 +24,19 @@ function Q1() {
         p태그는 보이지 않아야합니다
 
   */
+  const [isSame, setIsSame] = useState(false);
+  const [isHide, setIsHide] = useState(false);
+
+  const onChangeInputText = (e) => {
+    const placeholder = e.target.placeholder;
+
+    if (e.target.value === placeholder) return setIsSame(true);
+    setIsSame(false);
+  };
+
+  const onClickShowAndHideBtn = () => {
+    setIsHide((prev) => !prev);
+  };
 
   return (
     <>
@@ -31,24 +45,38 @@ function Q1() {
         <h2>문제1-1.</h2>
         <input
           type="text"
-          placeholder={"김성용"}
-          style={{ textAlign: "center" }}
+          onChange={onChangeInputText}
+          placeholder={'김성용'}
+          style={{textAlign: 'center'}}
         />
-        <S.Message> 올바르게 입력하셨습니다 </S.Message>
+        <S.Message1 state={isSame}>
+          {isSame ? '올바르게 입력하셨습니다' : '올바르게 글을 작성해주세요'}
+        </S.Message1>
       </div>
 
       <div>
         <h2>문제1-2. </h2>
-        <button>보이기</button>
-        <p> 이 문구는 보이기 상태일 때만 볼 수 있습니다 </p>
+        <button onClick={onClickShowAndHideBtn}>
+          {isHide ? '숨기기' : '보이기'}
+        </button>
+        <S.Message2 state={isHide}>
+          이 문구는 보이기 상태일 때만 볼 수 있습니다
+        </S.Message2>
       </div>
     </>
   );
 }
 export default Q1;
 
-const Message = styled.p``;
+const Message1 = styled.p`
+  color: ${({state}) => (state ? 'green' : 'red')};
+`;
+
+const Message2 = styled.p`
+  visibility: ${({state}) => (state ? 'hidden' : 'none')};
+`;
 
 const S = {
-  Message,
+  Message1,
+  Message2,
 };
