@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 function Q1() {
@@ -23,7 +24,33 @@ function Q1() {
         p태그는 보이지 않아야합니다
 
   */
+  //1-2문제
+  const [state1,setState1] = useState(false);
 
+  function showToggle(){
+    setState1((prev)=>!prev)
+  }
+  /**********************************************/
+  //1-1문제
+
+// 바꿔야 할 사항 글자 색, 문구
+// input.value의 값과 placeholder의 값을 비교할것
+// 
+  const [state2, setState2] = useState(false)
+  
+  const matching=(e) => {
+    const placeholder = e.target.placeholder
+    if(e.target.value === placeholder){
+      return setState2(true)  
+    }
+    console.log(state2);
+    setState2(false)
+  }
+
+
+
+  
+  
   return (
     <>
       <h1>문제1</h1>
@@ -31,23 +58,26 @@ function Q1() {
         <h2>문제1-1.</h2>
         <input
           type="text"
-          placeholder={"김성용"}
+          placeholder='김성용'
           style={{ textAlign: "center" }}
+          onChange={matching}
         />
-        <S.Message> 올바르게 입력하셨습니다 </S.Message>
+        <S.Message state2={state2}> {state2 ?'올바르게 입력하셨습니다':'올바르게 입력하세요'} </S.Message>
       </div>
 
       <div>
         <h2>문제1-2. </h2>
-        <button>보이기</button>
-        <p> 이 문구는 보이기 상태일 때만 볼 수 있습니다 </p>
+        <button onClick={showToggle}>{state1 ? '숨기기' : '보이기'}</button>
+        {state1 && <p> 이 문구는 보이기 상태일 때만 볼 수 있습니다 </p>}
       </div>
     </>
   );
 }
+//styled component 내에 바로 key:{value}형태로 정보를 전달 할 수 있다.
 export default Q1;
 
-const Message = styled.p``;
+const Message = styled.p`
+color : ${({state2})=> state2 ? 'green':'red'}`;
 
 const S = {
   Message,

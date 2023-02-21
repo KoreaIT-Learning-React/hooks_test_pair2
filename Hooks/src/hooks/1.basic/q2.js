@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function Q2() {
   const arr = [];
   const [forceRender, setForceRender] = useState(false);
-
+  const inputValue = useRef('');
   const onAddList = () => {
     setForceRender((prev) => !prev);
-    arr.push();
+    arr.push(<li>{inputValue.current.value}</li>);
+    console.log(arr);
+    return arr
   };
 
   /* 
@@ -30,7 +32,11 @@ function Q2() {
         <ul>만 노출되어야 합니다
 
         이를 useRef의 특성을 고려하여 풀이해보세요 :)
-
+  */
+  
+  
+  
+  /*
     2-2)
         문제 2-2는 변경 버튼을 클릭하면
         p태그의 색상이 다른 색상으로 변경됩니다.
@@ -40,14 +46,18 @@ function Q2() {
 
         따라서 useRef는 사용하여 해당 문구의 색상을 변경해보세요 :)
   */
-
+  const color = useRef(null);
+  const changeColor=()=>{
+    color.current.style.color = 'red'
+  }
+  
   return (
     <>
       <h1>문제2</h1>
       <div>
         <h2>문제 2-1</h2>
         <p>
-          <input />
+          <input ref={inputValue}/>
         </p>
         <p>
           <button onClick={onAddList}>추가</button>
@@ -61,8 +71,8 @@ function Q2() {
       </div>
       <div>
         <h2>문제 2-2</h2>
-        <p> 이 문구는 아래 버튼을 누르면 색상이 바뀝니다</p>
-        <button>변경</button>
+        <p ref={color}> 이 문구는 아래 버튼을 누르면 색상이 바뀝니다</p>
+        <button onClick={changeColor}>변경</button>
       </div>
     </>
   );
