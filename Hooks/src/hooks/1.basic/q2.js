@@ -39,14 +39,12 @@ function Q2() {
   const colorTextRef = useRef();
 
   const [forceRender, setForceRender] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const onAddList = () => {
-    setForceRender((prev) => !prev);
     arr.push(inputRef.current.value);
   };
 
-  const onSubmitList = () => setIsSubmit(true);
+  const onSubmitList = () => setForceRender((prev) => !prev);
 
   const onClickChangeColorBtn = () => {
     const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
@@ -67,9 +65,9 @@ function Q2() {
         <p>
           <button onClick={onSubmitList}>제출</button>
         </p>
-        {!isSubmit && <p>제출된 목록이 없습니다</p>}
+        {!forceRender && <p>제출된 목록이 없습니다</p>}
         <ul>
-          {isSubmit && arr.map((item, index) => <li key={index}>{item}</li>)}
+          {forceRender && arr.map((item, index) => <li key={index}>{item}</li>)}
         </ul>
       </div>
       <div>

@@ -1,4 +1,5 @@
-import Q3components from "../../components/1.basic/q3components";
+import {useEffect, useState} from 'react';
+import Q3components from '../../components/1.basic/q3components';
 
 function Q3() {
   /* 
@@ -22,17 +23,43 @@ function Q3() {
     또한, 줄넘기 횟수는 0으로 고정되어야합니다.
   */
 
+  const [isJumping, setIsJumping] = useState(true);
+  const [countJump, setCountJump] = useState(0);
+
+  useEffect(() => {
+    let count = 0;
+    if (isJumping) {
+      const jumping = setInterval(() => {
+        console.log('점프!');
+        setCountJump(count++);
+      }, 1000);
+    }
+
+    // if (!isJumping) {
+    //   clearInterval(jumping);
+    // }
+  }, [isJumping]);
+
+  const onStartJump = () => {
+    setIsJumping(true);
+  };
+
+  const onStopJump = () => {
+    setIsJumping(false);
+    setCountJump(0);
+  };
+
   return (
     <>
       <h1>문제3</h1>
       <div>
-        <p> 줄넘기 횟수 : 0 </p>
+        <p> 줄넘기 횟수 : {countJump} </p>
         <Q3components />
         <p>
-          <button>줄넘기 시작</button>
+          <button onClick={onStartJump}>줄넘기 시작</button>
         </p>
         <p>
-          <button>줄넘기 중지</button>
+          <button onClick={onStopJump}>줄넘기 중지</button>
         </p>
       </div>
     </>
