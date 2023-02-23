@@ -27,17 +27,18 @@ function Q3() {
   const [countJump, setCountJump] = useState(0);
 
   useEffect(() => {
-    let count = 0;
+    console.log('useEffect');
+
+    let jumping;
+
     if (isJumping) {
-      const jumping = setInterval(() => {
-        console.log('점프!');
-        setCountJump(count++);
-      }, 1000);
+      jumping = setInterval(() => {
+        setCountJump((countJump) => countJump + 1);
+      }, 2000);
     }
 
-    // if (!isJumping) {
-    //   clearInterval(jumping);
-    // }
+    // return clearInterval(jumping); // 이렇게 쓰면 아예 타이머가 시작하지 않음
+    return () => clearInterval(jumping);
   }, [isJumping]);
 
   const onStartJump = () => {
@@ -54,7 +55,7 @@ function Q3() {
       <h1>문제3</h1>
       <div>
         <p> 줄넘기 횟수 : {countJump} </p>
-        <Q3components />
+        <Q3components isJumping={isJumping} />
         <p>
           <button onClick={onStartJump}>줄넘기 시작</button>
         </p>
