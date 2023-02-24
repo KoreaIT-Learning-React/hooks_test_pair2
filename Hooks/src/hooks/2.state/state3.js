@@ -54,7 +54,10 @@ function State3() {
       <h2>상품 목록</h2>
       <ul>
         {productList.products.map((product, idx) => (
-          <ProductCard onNavigate={() => onNavigateDetailPage(idx)} />
+          <ProductCard
+            product={product}
+            onNavigate={() => onNavigateDetailPage(idx)}
+          />
         ))}
       </ul>
     </>
