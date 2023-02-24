@@ -1,6 +1,6 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Comment from "../../components/2.state/comment";
+import {useRef, useState} from 'react';
+import styled from 'styled-components';
+import Comment from '../../components/2.state/comment';
 
 function State2() {
   /*  
@@ -17,51 +17,82 @@ function State2() {
     */
 
   const [post, setPost] = useState({
-    title: "안녕하세요 여러분 김성용 강사입니다 :)",
-    content: "오늘도 모두 화이팅입니다!",
+    title: '안녕하세요 여러분 김성용 강사입니다 :)',
+    content: '오늘도 모두 화이팅입니다!',
     User: {
-      nickname: "김성용",
+      nickname: '김성용',
       age: 20,
       height: 190,
     },
     Comments: [
       {
         User: {
-          nickname: "김사과",
+          nickname: '김사과',
         },
-        content: "오늘도 화이팅입니다!",
+        content: '오늘도 화이팅입니다!',
         myComment: false,
       },
       {
         User: {
-          nickname: "반하나",
+          nickname: '반하나',
         },
-        content: "오늘도 화이팅입니다!",
+        content: '오늘도 화이팅입니다!',
         myComment: false,
       },
       {
         User: {
-          nickname: "오렌지",
+          nickname: '오렌지',
         },
-        content: "오늘도 화이팅입니다!",
+        content: '오늘도 화이팅입니다!',
         myComment: false,
       },
       {
         User: {
-          nickname: "이멜론",
+          nickname: '이멜론',
         },
-        content: "오늘도 화이팅입니다!",
+        content: '오늘도 화이팅입니다!',
         myComment: false,
       },
       {
         User: {
-          nickname: "박수박",
+          nickname: '박수박',
         },
-        content: "오늘도 화이팅입니다!",
+        content: '오늘도 화이팅입니다!',
         myComment: false,
       },
     ],
   });
+
+  const nicknameRef = useRef();
+  const contentRef = useRef();
+
+  const onAddComment = () => {
+    if (!contentRef.current.value) return alert('댓글 내용을 작성해주세요');
+
+    const newPost = {...post};
+
+    const newComment = {
+      User: {
+        nickname: nicknameRef.current.value
+          ? nicknameRef.current.value
+          : '익명',
+      },
+      content: contentRef.current.value,
+      myComment: true,
+    };
+
+    newPost.Comments.push(newComment);
+    setPost(newPost);
+  };
+
+  const onDeleteComment = (index) => {
+    const newPost = {...post};
+    newPost.Comments = newPost.Comments.filter(
+      (comment) => newPost.Comments.indexOf(comment) !== index
+    );
+
+    setPost(newPost);
+  };
 
   return (
     <S.Wrapper>
@@ -85,14 +116,21 @@ function State2() {
         <p>
           댓글 수: <span>{post.Comments.length}</span>
         </p>
-        <input placeholder="작성자" />
-        <input placeholder="댓글 내용" />
-        <button>댓글 작성</button>
+        <input placeholder="작성자 *미입력시 익명 처리" ref={nicknameRef} />
+        <input placeholder="댓글 내용" ref={contentRef} />
+        <button onClick={onAddComment}>댓글 작성</button>
       </div>
       <S.CommentList>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <Comment />
+        {post.Comments.map((comment, idx) => {
+          const commentData = {
+            index: idx,
+            nickname: comment.User.nickname,
+            content: comment.content,
+            myComment: comment.myComment,
+            onDelete: onDeleteComment,
+          };
+          return <Comment commentData={commentData} />;
+        })}
       </S.CommentList>
     </S.Wrapper>
   );
