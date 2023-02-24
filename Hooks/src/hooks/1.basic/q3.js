@@ -1,6 +1,19 @@
 import Q3components from "../../components/1.basic/q3components";
+import React,{useState,useEffect} from "react";
 
 function Q3() {
+  const [count,setCount] = useState(0);
+  const [isActive,setIsActive] = useState(false);
+  
+  useEffect(() =>{
+    setIsActive(true);
+  },[])
+
+  useEffect(()=>{
+    if(!isActive) return
+    console.log('실행')
+  },[isActive])
+
   /* 
     문제3
     useEffect useState에 관련한 문제입니다
@@ -26,13 +39,15 @@ function Q3() {
     <>
       <h1>문제3</h1>
       <div>
-        <p> 줄넘기 횟수 : 0 </p>
-        <Q3components />
-        <p>
-          <button>줄넘기 시작</button>
+        
+        {isActive || (<><p> 줄넘기 횟수 : {count} </p>
+        <Q3components count = {count} setCount = {setCount} />
+        </>)}
+        <p>  
+          <button onClick={()=>setIsActive((prev)=>!prev)}>줄넘기 시작</button>
         </p>
         <p>
-          <button>줄넘기 중지</button>
+          <button onClick={()=>setIsActive((prev)=>!prev)}>줄넘기 중지</button>
         </p>
       </div>
     </>

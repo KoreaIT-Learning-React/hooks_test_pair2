@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
+const arr = [];
 
 function Q2() {
-  const arr = [];
   const [forceRender, setForceRender] = useState(false);
   const inputValue = useRef('');
   const onAddList = () => {
@@ -10,7 +10,13 @@ function Q2() {
     console.log(arr);
     return arr
   };
-
+    const onShowList = () =>{
+        arr.map((e)=>{
+          return e
+        })
+    }
+      
+  
   /* 
     문제2
 
@@ -63,11 +69,9 @@ function Q2() {
           <button onClick={onAddList}>추가</button>
         </p>
         <p>
-          <button>제출</button>
-        </p>
-
-        <p>제출된 목록이 없습니다</p>
-        <ul>{/* -- list -- */}</ul>
+          <button onClick={onShowList}>제출</button>
+        </p>        
+        <ul>{arr.length != 0 ? arr : <li> <p>제출된 목록이 없습니다</p> </li> }</ul>
       </div>
       <div>
         <h2>문제 2-2</h2>
