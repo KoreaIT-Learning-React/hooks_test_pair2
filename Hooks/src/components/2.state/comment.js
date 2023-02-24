@@ -1,14 +1,19 @@
 import styled from "styled-components";
 
-function Comment() {
+function Comment({post}) {
   return (
     <S.CommentItem>
-      <p>
-        작성자: <span>예시 이름</span>
-      </p>
-      <p>
-        댓글 내용: <span>예시 내용</span>
-      </p>
+      {post.Comments.map((comment,idx)=>{
+      return( 
+      <>
+        <p>
+          작성자: <span>{comment.User.nickname}</span>
+        </p>
+        <p>
+            댓글 내용: <span>{comment.content}</span>
+        </p>
+      </>
+      )})}
     </S.CommentItem>
   );
 }

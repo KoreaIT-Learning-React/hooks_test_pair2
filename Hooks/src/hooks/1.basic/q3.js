@@ -44,10 +44,10 @@ function Q3() {
         <Q3components count = {count} setCount = {setCount} />
         </>)}
         <p>  
-          <button onClick={()=>setIsActive((prev)=>!prev)}>줄넘기 시작</button>
+          <button onClick={()=>setIsActive(false)}>줄넘기 시작</button>
         </p>
         <p>
-          <button onClick={()=>setIsActive((prev)=>!prev)}>줄넘기 중지</button>
+          <button onClick={()=>setIsActive(true)}>줄넘기 중지</button>
         </p>
       </div>
     </>
