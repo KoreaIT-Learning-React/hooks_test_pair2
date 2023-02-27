@@ -83,6 +83,8 @@ function State2() {
 
     newPost.Comments.push(newComment);
     setPost(newPost);
+    nicknameRef.current.value = '';
+    contentRef.current.value = '';
   };
 
   const onDeleteComment = (index) => {
@@ -90,6 +92,13 @@ function State2() {
     newPost.Comments = newPost.Comments.filter(
       (comment) => newPost.Comments.indexOf(comment) !== index
     );
+
+    setPost(newPost);
+  };
+
+  const onEditComment = (index, content) => {
+    const newPost = {...post};
+    newPost.Comments[index].content = content;
 
     setPost(newPost);
   };
@@ -121,16 +130,15 @@ function State2() {
         <button onClick={onAddComment}>댓글 작성</button>
       </div>
       <S.CommentList>
-        {post.Comments.map((comment, idx) => {
-          const commentData = {
-            index: idx,
-            nickname: comment.User.nickname,
-            content: comment.content,
-            myComment: comment.myComment,
-            onDelete: onDeleteComment,
-          };
-          return <Comment commentData={commentData} />;
-        })}
+        {post.Comments.map((comment, idx) => (
+          <Comment
+            key={idx}
+            index={idx}
+            comment={comment}
+            onDelete={onDeleteComment}
+            onEdit={onEditComment}
+          />
+        ))}
       </S.CommentList>
     </S.Wrapper>
   );

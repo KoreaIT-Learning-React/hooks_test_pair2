@@ -1,15 +1,37 @@
+import {useRef, useState} from 'react';
 import styled from 'styled-components';
 
-function Comment({commentData}) {
-  const {index, nickname, content, myComment, onDelete} = commentData;
+function Comment({index, comment, onDelete, onEdit}) {
+  const {User, content, myComment} = comment;
+
+  const [isEditComment, setIsEditComment] = useState(false);
+  const [editContent, setEditContent] = useState(content);
+
+  const onEditComment = () => {
+    setIsEditComment((prev) => !prev);
+    if (isEditComment) onEdit(index, editContent);
+  };
+
+  const onChangeEditComment = (e) => {
+    setEditContent(e.target.value);
+  };
+
   return (
     <S.CommentItem>
       <p>
-        작성자: <span>{nickname}</span>
+        작성자: <span>{User.nickname}</span>
       </p>
       <p>
-        댓글 내용: <span>{content}</span>
+        댓글 내용:{' '}
+        {isEditComment ? (
+          <textarea value={editContent} onChange={onChangeEditComment} />
+        ) : (
+          <span>{content}</span>
+        )}
       </p>
+      <button disabled={!myComment} onClick={onEditComment}>
+        {isEditComment ? '완료' : '수정'}
+      </button>
       <button disabled={!myComment} onClick={() => onDelete(index)}>
         삭제
       </button>
