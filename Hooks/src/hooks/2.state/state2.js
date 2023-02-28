@@ -71,7 +71,23 @@ function State2() {
     postDummy.Comments.push({User:{nickname:userRef.current.value}, content:commentRef.current.value,myComment:true})
     console.log(post.Comments);
     setPost(postDummy)
+    userRef.current.value = '';
+    commentRef.current.value = '';
   }
+
+  const onReviseComment = (index,content)=>{
+    const newPost ={...post};
+    newPost.content[index].content = content;
+    setPost(newPost)
+    }
+  const onDeleteComment = (index) =>{
+    const newPost ={...post};
+    newPost.Comments = newPost.Comments.filter((comment)=> 
+    newPost.Comments.indexOf(comment) !== index
+    )
+  }
+  
+
   return (
     <S.Wrapper>
       <h1>문제2</h1>
@@ -99,9 +115,16 @@ function State2() {
         <button onClick={onAddComment}>댓글 작성</button>
       </div>
       <S.CommentList>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <Comment post={post}/>
+        {post.Comments.map((comment,idx)=>(
+          <Comment
+            comment = {comment}
+            index = {idx}
+            onRevise ={onReviseComment}
+            onDelete ={onDeleteComment}
+          />
+        ))
+        }
+        
       </S.CommentList>
     </S.Wrapper>
   );
